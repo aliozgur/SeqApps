@@ -12,8 +12,10 @@ Currently in this repository you'll find:
 ## Authors
 * Ali Özgür [@aliozgur](https://twitter.com/aliozgur)
 
-## Screnshots
+## Seq.App.Jira Screnshot
 
 ![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_jira.png)
+
+## Seq.App.Rocket Screnshot
 
 ![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_rocket.png)
