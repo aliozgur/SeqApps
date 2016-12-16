@@ -8,7 +8,12 @@ Currently in this repository you'll find:
 
  * **Atlassian Jira** - Create issues on Jira from log events 
  * **Rocket.Chat** - Post log events to Rocket.Chat channel
- 
 
 ## Authors
 * Ali Özgür [@aliozgur](https://twitter.com/aliozgur)
+
+## Screnshots
+
+![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_jira.png)
+
+![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_rocket.png)
