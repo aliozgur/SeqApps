@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace SeqApps.Commons
 {
@@ -14,6 +15,7 @@ namespace SeqApps.Commons
 
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool DoNotAuthorize { get; set; } = false;
 
         public string BaseUrl { get; set; }
         public JsonRestClient(string baseUrl)
@@ -22,6 +24,12 @@ namespace SeqApps.Commons
                 throw new TypeInitializationException("SeqApps.Commons.SeqApps.Commons", new ApplicationException("BaseUrl is required"));
 
             BaseUrl = baseUrl.NormalizeHostOrFQDN() ;
+        }
+
+        static JsonRestClient()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
         }
 
         public Uri GetUriForResource(string resource)
@@ -37,7 +45,7 @@ namespace SeqApps.Commons
 
         private string GetBasicAuthzValue()
         {
-            if (Username.IsNullOrEmpty())
+            if ((Username??"").IsNullOrEmpty())
                 return string.Empty;
 
             var enc = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
@@ -48,9 +56,11 @@ namespace SeqApps.Commons
         {
             client = client ?? new WebClient();
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
+            client.Headers.Add(HttpRequestHeader.Accept, "application/json");
+
             client.Encoding = Encoding.UTF8;
             var authz = GetBasicAuthzValue();
-            if (authz.HasValue())
+            if (!DoNotAuthorize && authz.HasValue())
                 client.Headers.Add(HttpRequestHeader.Authorization, authz);
 
             var uri = GetUriForResource(resource);
@@ -60,15 +70,26 @@ namespace SeqApps.Commons
             return JsonConvert.DeserializeObject<TResponse>(response);
         }
 
-        public async Task<TResponse> PostAsync<TResponse, TData>(string resource, TData data) where TResponse : class
+        public async Task<TResponse> PostAsync<TResponse, TData>(string resource, TData data, Dictionary<string,string> headers=null) where TResponse : class
         {
             client = client ?? new WebClient();
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+            client.Headers.Add(HttpRequestHeader.Accept, "application/json");
             client.Encoding = Encoding.UTF8;
             var authz = GetBasicAuthzValue();
-            if (authz.HasValue())
+            if (!DoNotAuthorize && authz.HasValue())
                 client.Headers.Add(HttpRequestHeader.Authorization, authz);
 
+            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+
+            if ((headers?.Count ?? 0) > 0)
+            {
+                headers.Aggregate(client.Headers,(acc, kvp) =>
+                {
+                    acc.Add(kvp.Key, kvp.Value);
+                    return acc;
+                });
+            }
 
             var json = JsonConvert.SerializeObject(data);
             byte[] dataBytes = Encoding.UTF8.GetBytes(json);

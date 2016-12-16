@@ -307,7 +307,7 @@ namespace Seq.App.Jira
 
             sb.AppendFormat("Event Id: {0}\r\n", evt.Id);
             sb.AppendFormat("Level : {0}\r\n", evt.Data.Level.ToString());
-            if (evt.Data.Exception.HasValue())
+            if ((evt?.Data?.Exception ?? "").HasValue())
                 sb.AppendFormat("Exception Message: {0}\r\n", evt.Data.Exception);
 
             sb.AppendFormat("Timestamp : {0}\r\n", evt.Data.LocalTimestamp.ToLocalTime());

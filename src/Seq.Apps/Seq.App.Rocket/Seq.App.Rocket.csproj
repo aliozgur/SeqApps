@@ -57,6 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RocketChatMessage.cs" />
+    <Compile Include="RocketReactor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
