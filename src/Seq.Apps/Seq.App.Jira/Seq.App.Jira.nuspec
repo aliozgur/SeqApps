@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Seq.App.Atlassian.Jira</id>
+    <version>0.2</version>
+    <authors>Ali Özgür</authors>
+    <owners>Ali Özgür</owners>
+    <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/aliozgur/SeqApps</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Seq app to create issues on Atlassian Jira</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <tags>Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</tags>
+  </metadata>
+</package>

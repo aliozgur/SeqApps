@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Jira", "Seq.App.Jira\Seq.App.Jira.csproj", "{9942F93D-11DD-483B-8699-1D1E033BFD1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Rocket", "Seq.App.Rocket\Seq.App.Rocket.csproj", "{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.Commons", "SeqApps.Commons\SeqApps.Commons.csproj", "{FF05F458-8018-4975-B568-948F86F05E46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF05F458-8018-4975-B568-948F86F05E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF05F458-8018-4975-B568-948F86F05E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF05F458-8018-4975-B568-948F86F05E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF05F458-8018-4975-B568-948F86F05E46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

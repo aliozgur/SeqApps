@@ -1,0 +1,1 @@
+nuget pack Seq.App.Jira.csproj -build -includereferencedprojects -properties Configuration=Release
