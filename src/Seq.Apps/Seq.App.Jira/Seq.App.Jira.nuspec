@@ -2,9 +2,9 @@
 <package >
   <metadata>
     <id>Seq.App.Atlassian.Jira</id>
-    <version>0.2</version>
-    <authors>Ali Özgür</authors>
-    <owners>Ali Özgür</owners>
+    <version>0.2.2</version>
+    <authors>ali.ozgur</authors>
+    <owners>ali.ozgur</owners>
     <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/aliozgur/SeqApps</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

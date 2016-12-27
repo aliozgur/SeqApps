@@ -26,7 +26,7 @@ namespace Seq.App.Rocket
         [SeqAppSetting(DisplayName = "Rocket REST API Url",
             IsOptional = false,
              HelpText = "REST API Url of your Rocket.Chat server")]
-        public string RocketApiUrl{ get; set; }
+        public string RocketApiUrl { get; set; }
 
         [SeqAppSetting(DisplayName = "Rocket.Chat Channel",
             IsOptional = false,
@@ -36,7 +36,7 @@ namespace Seq.App.Rocket
 
         [SeqAppSetting(DisplayName = "Comma seperates list of event levels",
             IsOptional = true,
-            HelpText = "If specified Jira issue will be created only for the specified event levels, other levels will be discarded")]
+            HelpText = "If specified Rocket.Chat message will be created only for the specified event levels, other levels will be discarded")]
         public string LogEventLevels { get; set; }
 
         public List<LogEventLevel> LogEventLevelList
@@ -70,7 +70,16 @@ namespace Seq.App.Rocket
         HelpText =
             "Attach event data structured properties to the message"
         )]
-        public bool AttachProperties{ get; set; } = false;
+        public bool AttachProperties { get; set; } = false;
+
+        [SeqAppSetting(
+            DisplayName = "Attach Exception",
+            IsOptional = true,
+            InputType = SettingInputType.Checkbox,
+            HelpText ="Attach event data structured properties to the message"
+)]
+        public bool AttachException { get; set; } = false;
+
 
         [SeqAppSetting(
             DisplayName = "Rocket Username",
@@ -82,6 +91,7 @@ namespace Seq.App.Rocket
             IsOptional = false,
             InputType = SettingInputType.Password)]
         public string Password { get; set; }
+
 
 
         private string _step;
@@ -125,13 +135,13 @@ namespace Seq.App.Rocket
             _step = "Will authenticate: " + client.GetUriForResource("login");
             var authTicket =
                 await
-                    client.PostAsync<RocketAuthTicket,RocketAuthPayload>("login", new RocketAuthPayload { username = Username, password = Password})
+                    client.PostAsync<RocketAuthTicket, RocketAuthPayload>("login", new RocketAuthPayload { username = Username, password = Password })
                         .ConfigureAwait(false);
 
             if (authTicket?.data == null || authTicket.status != "success")
             {
                 var e = new ApplicationException("Can not authenticate Rocket.Chat with the specified username/passwod");
-                Log.Error(e,"Rocket.Chat authentication failure");
+                Log.Error(e, "Rocket.Chat authentication failure");
                 return false;
             }
 
@@ -158,25 +168,43 @@ namespace Seq.App.Rocket
                 var attachment = new RocketChatMessageAttachment
                 {
                     color = RocketChatMessageAttachment.ColorByLevel(evt.Data.Level),
-                    title = summary,
-                    text = renderedMessage,
-                    title_link = eventUrl
+                    title = "Message",
+                    title_link = eventUrl,
+                    collapsed = true,
                 };
+
+                var field = new RocketChatMessageAttachmentField
+                {
+                    @short = false,
+                    value = renderedMessage,
+                };
+
+                attachment.fields = attachment.fields ?? new List<RocketChatMessageAttachmentField>();
+                attachment.fields.Add(field);
 
                 rocketMessage.attachments = rocketMessage.attachments ?? new List<RocketChatMessageAttachment>();
                 rocketMessage.attachments.Add(attachment);
             }
 
             // If event has exception attach that Exception
-            if ((evt?.Data?.Exception ?? "").HasValue())
+            if (AttachException && (evt?.Data?.Exception ?? "").HasValue())
             {
                 var attachment = new RocketChatMessageAttachment
                 {
-                    color = RocketChatMessageAttachment.ColorByLevel(evt.Data.Level),
-                    title = evt.Data.Exception,
-                    text = evt.Data.Level.ToString(),
-                    title_link = eventUrl
+                    color = RocketChatMessageAttachment.ColorByLevel(LogEventLevel.Fatal),
+                    title = "Exception",
+                    title_link = eventUrl,
+                    collapsed = true,
                 };
+
+                var field = new RocketChatMessageAttachmentField
+                {
+                    @short = false,
+                    value = evt.Data.Exception,
+                };
+
+                attachment.fields = attachment.fields ?? new List<RocketChatMessageAttachmentField>();
+                attachment.fields.Add(field);
 
                 rocketMessage.attachments = rocketMessage.attachments ?? new List<RocketChatMessageAttachment>();
                 rocketMessage.attachments.Add(attachment);
@@ -184,12 +212,11 @@ namespace Seq.App.Rocket
 
 
             // Attach structured properties
-            if (AttachProperties && (evt?.Data?.Properties?.Count ?? 0) > 0 )
+            if (AttachProperties && (evt?.Data?.Properties?.Count ?? 0) > 0)
             {
                 var attachment = new RocketChatMessageAttachment
                 {
-                    color = RocketChatMessageAttachment.ColorByLevel(evt.Data.Level),
-                    title = "Structured Event Properties",
+                    title = "Additional Data",
                     title_link = eventUrl,
                     collapsed = true
                 };
@@ -214,19 +241,19 @@ namespace Seq.App.Rocket
             // Add auth token data to request header
             Dictionary<string, string> authHeaders = new Dictionary<string, string>
             {
-                ["X-User-Id"]=authTicket.data.userId,
-                ["X-Auth-Token"]=authTicket.data.authToken,
+                ["X-User-Id"] = authTicket.data.userId,
+                ["X-Auth-Token"] = authTicket.data.authToken,
             };
 
             _step = "Will post message";
 
             // Post the message
-            var postMessageResult = await client.PostAsync<RocketChatPostMessageResult, RocketChatMessage>("chat.postMessage", rocketMessage,authHeaders).ConfigureAwait(false);
+            var postMessageResult = await client.PostAsync<RocketChatPostMessageResult, RocketChatMessage>("chat.postMessage", rocketMessage, authHeaders).ConfigureAwait(false);
 
             if (postMessageResult == null || !postMessageResult.success)
             {
                 var e = new ApplicationException("Can not post message to Rocket.Chat");
-                var error = (postMessageResult?.error??"");
+                var error = (postMessageResult?.error ?? "");
                 Log.Error(e, "Rocket.Chat post message failure : {error}", error);
                 return false;
             }
