@@ -63,6 +63,24 @@ namespace Seq.App.Rocket
             }
         }
 
+
+        [SeqAppSetting(DisplayName = "Comma seperates list of properties to include as prefix in chat message title",
+            IsOptional = true,
+            HelpText = "If specified matching log properties will be included as prefix in the chat message title")]
+        public string TitleProperties { get; set; }
+
+        public List<string> TitlePropertiesList
+        {
+            get
+            {
+                List<string> result = new List<string>();
+                if ((TitleProperties ?? "") == "")
+                    return result;
+
+                return TitleProperties.Split(new char[1] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            }
+        }
+
         [SeqAppSetting(
         DisplayName = "Attach Properties",
         IsOptional = true,
@@ -155,11 +173,14 @@ namespace Seq.App.Rocket
             var seqUrl = SeqUrl.NormalizeHostOrFQDN();
             var eventUrl = $"{seqUrl}#/events?filter=@Id%20%3D%20'{evt.Id}'";
 
+
+            var propValuesInTitle = BuildPropertyValuesString(evt);
+
             // Create the rocket message
             var rocketMessage = new RocketChatMessage
             {
                 channel = channel,
-                text = $"[{summary}]({eventUrl})"
+                text = $"{(propValuesInTitle.HasValue() ? propValuesInTitle + " : " : "")} [{summary}]({eventUrl})"
             };
 
             // Attach the rendered message
@@ -185,7 +206,7 @@ namespace Seq.App.Rocket
                 rocketMessage.attachments = rocketMessage.attachments ?? new List<RocketChatMessageAttachment>();
                 rocketMessage.attachments.Add(attachment);
             }
-
+            
             // If event has exception attach that Exception
             if (AttachException && (evt?.Data?.Exception ?? "").HasValue())
             {
@@ -260,6 +281,26 @@ namespace Seq.App.Rocket
 
             _step = "Done post message";
             return true;
+        }
+
+        private string BuildPropertyValuesString(Event<LogEventData> evt)
+        {
+            if (TitlePropertiesList?.Count > 0)
+            {
+                var lst = TitlePropertiesList;
+                var propValuesList = new List<string>();
+                foreach (var p in lst)
+                {
+                    object propValue = null;
+                    if (evt.Data.Properties.TryGetValue(p, out propValue) && propValue != null)
+                    {
+                        propValuesList.Add(propValue.ToString());
+                    }
+                }
+
+                return String.Join(" | ", propValuesList);
+            }
+            return "";
         }
     }
 }
