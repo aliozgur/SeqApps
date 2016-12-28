@@ -34,9 +34,9 @@ namespace Seq.App.Rocket
         public string Channel { get; set; }
 
 
-        [SeqAppSetting(DisplayName = "Comma seperates list of event levels",
+        [SeqAppSetting(DisplayName = "Event levels",
             IsOptional = true,
-            HelpText = "If specified Rocket.Chat message will be created only for the specified event levels, other levels will be discarded")]
+            HelpText = "Comma seperated list of event levels. If specified Rocket.Chat message will be created only for the specified event levels, other levels will be discarded")]
         public string LogEventLevels { get; set; }
 
         public List<LogEventLevel> LogEventLevelList
@@ -64,9 +64,9 @@ namespace Seq.App.Rocket
         }
 
 
-        [SeqAppSetting(DisplayName = "Comma seperates list of properties to include as prefix in chat message title",
+        [SeqAppSetting(DisplayName = "Title Prefix Properties",
             IsOptional = true,
-            HelpText = "If specified matching log properties will be included as prefix in the chat message title")]
+            HelpText = "Comma seperated list of properties to include as prefix in chat message title.If specified matching log properties will be included as prefix in the chat message title")]
         public string TitleProperties { get; set; }
 
         public List<string> TitlePropertiesList
@@ -78,6 +78,23 @@ namespace Seq.App.Rocket
                     return result;
 
                 return TitleProperties.Split(new char[1] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            }
+        }
+
+        [SeqAppSetting(DisplayName = "Properties",
+            IsOptional = true,
+            HelpText = "Comma seperated list of additional property key/names. If specified only matching properties will be attached to the chat message. Please note you should also enable Attach Properties")]
+        public string AdditionalProperties { get; set; }
+
+        public List<string> AdditionalPropertiesList
+        {
+            get
+            {
+                List<string> result = new List<string>();
+                if ((AdditionalProperties ?? "") == "")
+                    return result;
+
+                return AdditionalProperties.Split(new char[1] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
             }
         }
 
@@ -94,7 +111,7 @@ namespace Seq.App.Rocket
             DisplayName = "Attach Exception",
             IsOptional = true,
             InputType = SettingInputType.Checkbox,
-            HelpText ="Attach event data structured properties to the message"
+            HelpText = "Attach event data structured properties to the message"
 )]
         public bool AttachException { get; set; } = false;
 
@@ -206,7 +223,7 @@ namespace Seq.App.Rocket
                 rocketMessage.attachments = rocketMessage.attachments ?? new List<RocketChatMessageAttachment>();
                 rocketMessage.attachments.Add(attachment);
             }
-            
+
             // If event has exception attach that Exception
             if (AttachException && (evt?.Data?.Exception ?? "").HasValue())
             {
@@ -243,8 +260,13 @@ namespace Seq.App.Rocket
                 };
 
                 var allProps = evt.Data.Properties;
+                var additionPropList = AdditionalPropertiesList;
+
                 foreach (var kvp in allProps)
                 {
+                    if (additionPropList?.Count > 0 && !additionPropList.Contains(kvp.Key))
+                        continue;
+
                     var field = new RocketChatMessageAttachmentField
                     {
                         @short = false,

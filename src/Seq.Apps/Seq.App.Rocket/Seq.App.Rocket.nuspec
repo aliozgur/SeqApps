@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Seq.App.Rocket</id>
-    <version>0.2.8</version>
+    <version>0.3.0</version>
     <authors>ali.ozgur</authors>
     <owners>ali.ozgur</owners>
     <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/aliozgur/SeqApps</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Seq app to post message on Rocket.Chat channel</description>
-    <releaseNotes>Add setting to define event properties in chat message title</releaseNotes>
+    <releaseNotes>Add setting to restrict additional properties by specifying comma seperaed list of keys</releaseNotes>
     <tags>seq-app Seq Serilog Rocket Rocket.Chat Seq.App Seq.App.Rocket</tags>
   </metadata>
 </package>
