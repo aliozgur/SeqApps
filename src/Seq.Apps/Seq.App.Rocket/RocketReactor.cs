@@ -197,7 +197,7 @@ namespace Seq.App.Rocket
             var rocketMessage = new RocketChatMessage
             {
                 channel = channel,
-                text = $"{(propValuesInTitle.HasValue() ? propValuesInTitle + " : " : "")} [{summary}]({eventUrl})"
+                text = $"[ View Event ]({eventUrl}) {(propValuesInTitle.HasValue() ? propValuesInTitle + " : " : "")}{summary}"
             };
 
             // Attach the rendered message
@@ -207,7 +207,7 @@ namespace Seq.App.Rocket
                 {
                     color = RocketChatMessageAttachment.ColorByLevel(evt.Data.Level),
                     title = "Message",
-                    title_link = eventUrl,
+                    //title_link = eventUrl,
                     collapsed = true,
                 };
 
@@ -231,7 +231,7 @@ namespace Seq.App.Rocket
                 {
                     color = RocketChatMessageAttachment.ColorByLevel(LogEventLevel.Fatal),
                     title = "Exception",
-                    title_link = eventUrl,
+                    //title_link = eventUrl,
                     collapsed = true,
                 };
 
@@ -255,7 +255,7 @@ namespace Seq.App.Rocket
                 var attachment = new RocketChatMessageAttachment
                 {
                     title = "Additional Data",
-                    title_link = eventUrl,
+                    //title_link = eventUrl,
                     collapsed = true
                 };
 
