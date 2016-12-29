@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.Commons", "SeqApps.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Apps.Tests", "Seq.Apps.Tests\Seq.Apps.Tests.csproj", "{68B9ADC5-7FCD-4973-B33C-A7495BA81747}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.UdpCast", "Seq.App.UdpCast\Seq.App.UdpCast.csproj", "{90B4098A-2F95-4F35-A751-B822DB0EB1B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{68B9ADC5-7FCD-4973-B33C-A7495BA81747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68B9ADC5-7FCD-4973-B33C-A7495BA81747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68B9ADC5-7FCD-4973-B33C-A7495BA81747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90B4098A-2F95-4F35-A751-B822DB0EB1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90B4098A-2F95-4F35-A751-B822DB0EB1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90B4098A-2F95-4F35-A751-B822DB0EB1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90B4098A-2F95-4F35-A751-B822DB0EB1B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

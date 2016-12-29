@@ -103,7 +103,7 @@ namespace Seq.App.Rocket
         IsOptional = true,
         InputType = SettingInputType.Checkbox,
         HelpText =
-            "Attach event data structured properties to the message"
+            "Attach event data structured properties"
         )]
         public bool AttachProperties { get; set; } = false;
 
@@ -111,7 +111,7 @@ namespace Seq.App.Rocket
             DisplayName = "Attach Exception",
             IsOptional = true,
             InputType = SettingInputType.Checkbox,
-            HelpText = "Attach event data structured properties to the message"
+            HelpText = "Attach exception message"
 )]
         public bool AttachException { get; set; } = false;
 
