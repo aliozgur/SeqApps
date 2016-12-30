@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.UdpCast", "Seq.App.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.GitLab", "SeqApps.GitLab\SeqApps.GitLab.csproj", "{B39BE2B8-9129-42FB-B27B-3C96C82961A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.GitHub", "SeqApps.GitHub\SeqApps.GitHub.csproj", "{B37F8816-4DB0-4E8C-914B-59094455676E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B39BE2B8-9129-42FB-B27B-3C96C82961A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B39BE2B8-9129-42FB-B27B-3C96C82961A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B39BE2B8-9129-42FB-B27B-3C96C82961A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B37F8816-4DB0-4E8C-914B-59094455676E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37F8816-4DB0-4E8C-914B-59094455676E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37F8816-4DB0-4E8C-914B-59094455676E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37F8816-4DB0-4E8C-914B-59094455676E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

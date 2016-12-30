@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Seq.App.GitHub</id>
+    <version>0.1.0</version>
+    <authors>ali.ozgur</authors>
+    <owners>ali.ozgur</owners>
+    <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/aliozgur/SeqApps</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Seq app to create issues on GitHub</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <tags>seq-app Seq Serilog GitHub Seq.App Seq.App.GitHub Issues</tags>
+    <dependencies>
+        <dependency id="Octokit" version="0.23.0" />
+    </dependencies>
+  </metadata>
+</package>

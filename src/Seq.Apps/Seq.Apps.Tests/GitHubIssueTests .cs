@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SeqApps.GitLab;
+using SeqApps.GitHub;
 using Moq;
 
 namespace Seq.Apps.Tests
 {
     [TestClass]
-    public class GitLabIssueTests
+    public class GitHubIssueTests
     {
         [TestMethod]
         public void CreateIssue()
         {
 
-            GitLabIssueReactor gitlabReactor = new GitLabIssueReactor()
+            GitHubIssueReactor gitHubReactor = new GitHubIssueReactor()
             {
-                GitLabRestApiUrl = "http://yourgitlabserver.com/api/v3/",
-                GitLabPrivateToken = "YourPrivateToken",
-                GitLabProjectName = "GitLabProject",
+                GitHubUsername = "username or personal token",
+                GitHubPassword = "password if specified username",
+                GitHubRepoOwnerName = "aliozgur",
+                GitHubRepoName = "SeqApps",
                 SeqUrl = "http://seq.yourdomain.com",
                 TitleProperties = "_App,_MachineName",
                 LabelProperties = "_App,_Version",
@@ -49,7 +50,7 @@ namespace Seq.Apps.Tests
                         
                 });
 
-            gitlabReactor.On(evt);
+            gitHubReactor.On(evt);
         }
     }
 }

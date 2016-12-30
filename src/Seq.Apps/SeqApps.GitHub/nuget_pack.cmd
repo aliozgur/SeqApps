@@ -1,0 +1,1 @@
+nuget pack SeqApps.GitHub.csproj -build -includereferencedprojects -properties Configuration=Release
