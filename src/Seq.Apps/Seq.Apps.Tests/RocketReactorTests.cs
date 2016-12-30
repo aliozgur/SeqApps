@@ -8,7 +8,7 @@ namespace Seq.Apps.Tests
     public class RocketReactorTests
     {
         [TestMethod]
-        public void Authenticate()
+        public void SendMessage()
         {
 
             RocketReactor rr = new RocketReactor()

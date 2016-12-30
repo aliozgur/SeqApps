@@ -11,7 +11,6 @@ namespace SeqApps.Commons
 {
     public class JsonRestClient
     {
-        private WebClient client;
 
         public string Username { get; set; }
         public string Password { get; set; }
@@ -52,54 +51,55 @@ namespace SeqApps.Commons
             return $"{"Basic"} {enc}";
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(string resource)
+        private WebClient CreateWebClient(Dictionary<string, string> headers = null)
         {
-            client = client ?? new WebClient();
+
+            WebClient client = new WebClient();
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-
-            client.Encoding = Encoding.UTF8;
-            var authz = GetBasicAuthzValue();
-            if (!DoNotAuthorize && authz.HasValue())
-                client.Headers.Add(HttpRequestHeader.Authorization, authz);
-
-            var uri = GetUriForResource(resource);
-            var responseBytes = await client.DownloadDataTaskAsync(uri).ConfigureAwait(false);
-
-            string response = Encoding.UTF8.GetString(responseBytes);
-            return JsonConvert.DeserializeObject<TResponse>(response);
-        }
-
-        public async Task<TResponse> PostAsync<TResponse, TData>(string resource, TData data, Dictionary<string,string> headers=null) where TResponse : class
-        {
-            client = client ?? new WebClient();
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            client.Encoding = Encoding.UTF8;
-            var authz = GetBasicAuthzValue();
-            if (!DoNotAuthorize && authz.HasValue())
-                client.Headers.Add(HttpRequestHeader.Authorization, authz);
-
-            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-
+            client.Headers.Add(HttpRequestHeader.UserAgent,
+                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
             if ((headers?.Count ?? 0) > 0)
             {
-                headers.Aggregate(client.Headers,(acc, kvp) =>
+                headers.Aggregate(client.Headers, (acc, kvp) =>
                 {
                     acc.Add(kvp.Key, kvp.Value);
                     return acc;
                 });
             }
 
-            var json = JsonConvert.SerializeObject(data);
-            byte[] dataBytes = Encoding.UTF8.GetBytes(json);
-            var uri = GetUriForResource(resource);
-            var responseBytes = await client.UploadDataTaskAsync(uri, "POST", dataBytes).ConfigureAwait(false);
-            string response = Encoding.UTF8.GetString(responseBytes);
-            if (typeof(TResponse) == typeof(string))
-                return response as TResponse;
+            client.Encoding = Encoding.UTF8;
+            var authz = GetBasicAuthzValue();
+            if (!DoNotAuthorize && authz.HasValue())
+                client.Headers.Add(HttpRequestHeader.Authorization, authz);
+            return client;
+        }
 
-            return JsonConvert.DeserializeObject<TResponse>(response);
+        public async Task<TResponse> GetAsync<TResponse>(string resource, Dictionary<string,string> headers=null)
+        {
+            using (WebClient client = CreateWebClient(headers))
+            {
+                var uri = GetUriForResource(resource);
+                var responseBytes = await client.DownloadDataTaskAsync(uri).ConfigureAwait(false);
+                string response = Encoding.UTF8.GetString(responseBytes);
+                return JsonConvert.DeserializeObject<TResponse>(response);
+            }
+        }
+
+        public async Task<TResponse> PostAsync<TResponse, TData>(string resource, TData data, Dictionary<string,string> headers=null) where TResponse : class
+        {
+            using (WebClient client = CreateWebClient(headers))
+            {
+                var json = JsonConvert.SerializeObject(data);
+                byte[] dataBytes = Encoding.UTF8.GetBytes(json);
+                var uri = GetUriForResource(resource);
+                var responseBytes = await client.UploadDataTaskAsync(uri, "POST", dataBytes).ConfigureAwait(false);
+                string response = Encoding.UTF8.GetString(responseBytes);
+                if (typeof (TResponse) == typeof (string))
+                    return response as TResponse;
+
+                return JsonConvert.DeserializeObject<TResponse>(response);
+            }
         }
 
     }

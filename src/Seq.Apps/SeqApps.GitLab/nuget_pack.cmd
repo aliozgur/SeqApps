@@ -1,0 +1,1 @@
+nuget pack SeqApps.GitLab.csproj -build -includereferencedprojects -properties Configuration=Release

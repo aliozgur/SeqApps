@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Seq.App.Rocket</id>
-    <version>0.3.4</version>
+    <id>Seq.App.GitLab</id>
+    <version>0.1.0</version>
     <authors>ali.ozgur</authors>
     <owners>ali.ozgur</owners>
     <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/aliozgur/SeqApps</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Seq app to post message on Rocket.Chat channel</description>
-    <releaseNotes>Internal rest client refactorings</releaseNotes>
-    <tags>seq-app Seq Serilog Rocket Rocket.Chat Seq.App Seq.App.Rocket</tags>
+    <description>Seq app to create issues on GitLab</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <tags>seq-app Seq Serilog GitLab Seq.App Seq.App.GitLab Issues</tags>
   </metadata>
 </package>

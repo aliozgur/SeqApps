@@ -104,7 +104,7 @@ namespace Seq.App.UdpCast
             if ((LogEventLevelList?.Count ?? 0) > 0 && !LogEventLevelList.Contains(evt.Data.Level))
                 return;
 
-            var encoding = System.Text.Encoding.UTF8;
+            var encoding = Encoding.UTF8;
 
             IPAddress remoteAddress;
 

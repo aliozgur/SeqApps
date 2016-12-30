@@ -20,7 +20,7 @@ namespace Seq.App.Rocket
         [SeqAppSetting(
             DisplayName = "Seq Server Url",
             IsOptional = true,
-            HelpText = "URL of the seq server. This appears as a lin in message title")]
+            HelpText = "URL of the seq server. This appears as a link in message title")]
         public string SeqUrl { get; set; }
 
         [SeqAppSetting(DisplayName = "Rocket REST API Url",

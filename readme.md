@@ -6,8 +6,10 @@ Apps for the [Seq](http://getseq.net) event server. You can find installable ver
 
 Currently in this repository you'll find:
 
- * **Atlassian Jira** - Create issues on Jira from log events. [NuGet Package](https://www.nuget.org/packages/Seq.App.Atlassian.Jira/)
+ * **Atlassian Jira** - Create issues on Jira from log events. [NuGet Package](https://www.nuget.org/packages/Seq.App.Atlassian.Jira)
  * **Rocket.Chat** - Post log events to Rocket.Chat channel. [NuGet Package](https://www.nuget.org/packages/Seq.App.Rocket)
+ * **Udp Cast** - Cast events to Udp clients. [NuGet Package](https://www.nuget.org/packages/Seq.App.UdpCast)
+ * **GitLab Issues** - Create issues on GitLab from Seq events. [NuGet Package](https://www.nuget.org/packages/Seq.App.GitLab)
 
 ## Authors
 * Ali Özgür [@aliozgur](https://twitter.com/aliozgur)
@@ -19,3 +21,9 @@ Currently in this repository you'll find:
 ## Seq.App.Rocket Screnshot
 
 ![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_rocket.png)
+
+## Seq.App.UdpCast Screenshot
+![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_udp.png)
+
+## Seq.App.GitLab Screenshot
+![Seq.App.Jira](https://github.com/aliozgur/SeqApps/blob/master/assets/ss_gitlab.png)
