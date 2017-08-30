@@ -31,7 +31,7 @@ namespace SeqApps.GitLab
 
         [SeqAppSetting(DisplayName = "GitLab Project Name",
             IsOptional = false,
-             HelpText = "GitLab project name OR event property which contains the GitLab project name. You can use API keys to inject this property or log this property from your app code"
+             HelpText = "GitLab project name (with full namespace path) OR event property which contains the GitLab project name. You can use API keys to inject this property or log this property from your app code"
             )]
         public string GitLabProjectName { get; set; }
 
@@ -190,7 +190,6 @@ namespace SeqApps.GitLab
             if (!(projectName ?? "").HasValue())
                 return false;
 
-
             var apiBaseUrl = GitLabRestApiUrl.NormalizeHostOrFQDN();
             var client = new JsonRestClient(apiBaseUrl);
             client.DoNotAuthorize = true;
@@ -204,11 +203,11 @@ namespace SeqApps.GitLab
             _step = $"Will get project id for {projectName}";
 
 
-
-            var searchResult = await client.GetAsync<List<IdDto>>($"projects/search/{projectName}", headers)
+            projectName = System.Net.WebUtility.UrlEncode(projectName);
+            var searchResult = await client.GetAsync<IdDto>($"projects/{projectName}", headers)
                 .ConfigureAwait(false);
 
-            var projectId = searchResult.FirstOrDefault();
+            var projectId = searchResult?.id;
             if (projectId == null)
             {
                 Log.Error($"Project not found {projectName}");
@@ -278,27 +277,27 @@ namespace SeqApps.GitLab
             // Create the issue
             var gitLabIssue = new NewIssuePayload
             {
-                id = projectId.id,
+                id = projectId.Value,
                 title = $"{(propValuesInTitle.HasValue() ? propValuesInTitle + " : " : "")}{summary}",
                 description = sb.ToString(),
                 labels = labels
             };
 
-            _step = $"Will create issue for {projectId.id} -> {projectName}";
+            _step = $"Will create issue for {projectId} -> {projectName}";
 
             // Post the message
-            var createIssueResult = await client.PostAsync<NewIssueResponsePayload, NewIssuePayload>($"projects/{projectId.id}/issues", gitLabIssue, headers)
+            var createIssueResult = await client.PostAsync<NewIssueResponsePayload, NewIssuePayload>($"projects/{projectId}/issues", gitLabIssue, headers)
                 .ConfigureAwait(false);
 
             if (createIssueResult == null || !createIssueResult.id.HasValue)
             {
-                var e = new ApplicationException($"Can not create issue for project {projectId.id} -> {projectName}");
+                var e = new ApplicationException($"Can not create issue for project {projectId} -> {projectName}");
                 var error = (createIssueResult?.error ?? "");
                 Log.Error(e, "GitLab create issue failure : {error}", error);
                 return false;
             }
 
-            _step = $"DONE create issue {projectId.id} -> {projectName}";
+            _step = $"DONE create issue {projectId} -> {projectName}";
             return true;
         }
 
