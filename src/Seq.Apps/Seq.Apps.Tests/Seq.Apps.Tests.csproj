@@ -69,11 +69,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GitHubIssueTests .cs" />
+    <Compile Include="JiraIssueReactorTests.cs" />
     <Compile Include="RocketReactorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GitLabIssueTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Seq.App.Jira\Seq.App.Jira.csproj">
+      <Project>{9942f93d-11dd-483b-8699-1d1e033bfd1f}</Project>
+      <Name>Seq.App.Jira</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seq.App.Rocket\Seq.App.Rocket.csproj">
       <Project>{14e05ac6-dfec-4077-8bbe-fb0a1e386b81}</Project>
       <Name>Seq.App.Rocket</Name>

@@ -58,7 +58,9 @@ namespace SeqApps.Commons
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.UserAgent,
-                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+                //"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
+                "Seq Jira Issue Reactor");
+
             if ((headers?.Count ?? 0) > 0)
             {
                 headers.Aggregate(client.Headers, (acc, kvp) =>
