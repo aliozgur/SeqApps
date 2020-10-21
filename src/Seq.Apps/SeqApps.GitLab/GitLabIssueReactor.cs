@@ -12,10 +12,10 @@ namespace SeqApps.GitLab
 {
     [SeqApp("GitLab Issues",
         Description = "Posts seq event as an issue to a GitLab project")]
-    public class GitLabIssueReactor : Reactor, ISubscribeTo<LogEventData>
+    public class GitLabIssueReactor : SeqApp, ISubscribeTo<LogEventData>
     {
 
-        #region Settings 
+        #region Settings
 
         [SeqAppSetting(
             DisplayName = "Seq Server Url",

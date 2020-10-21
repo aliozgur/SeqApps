@@ -13,7 +13,7 @@ namespace Seq.App.UdpCast
 {
     [SeqApp("UdpCast",
         Description = "Forward seq event to UDP listener")]
-    public class UdpForwarder: Reactor, ISubscribeTo<LogEventData>
+    public class UdpForwarder: SeqApp, ISubscribeTo<LogEventData>
     {
         #region Settings
 

@@ -13,10 +13,10 @@ namespace SeqApps.GitHub
 {
     [SeqApp("GitHub Issues",
         Description = "Posts seq event as an issue to a GitHub project")]
-    public class GitHubIssueReactor : Reactor, ISubscribeTo<LogEventData>
+    public class GitHubIssueReactor : SeqApp, ISubscribeTo<LogEventData>
     {
 
-        #region Settings 
+        #region Settings
 
         [SeqAppSetting(
             DisplayName = "Seq Server Url",
@@ -193,7 +193,7 @@ namespace SeqApps.GitHub
             if ((LogEventLevelList?.Count ?? 0) > 0 && !LogEventLevelList.Contains(evt.Data.Level))
                 return false;
 
-            if (!(GitHubRepoName ?? "").HasValue() 
+            if (!(GitHubRepoName ?? "").HasValue()
                 || !(GitHubRepoOwnerName ?? "").HasValue()
                 || !(GitHubUsername ?? "").HasValue()
                 )
@@ -246,7 +246,7 @@ namespace SeqApps.GitHub
             var seqUrl = SeqUrl.NormalizeHostOrFQDN();
             var eventUrl = $"{seqUrl}#/events?filter=@Id%20%3D%20'{evt.Id}'";
             var propValuesInTitle = BuildPropertyValuesString(evt, TitlePropertiesList);
-           
+
             StringBuilder sb = new StringBuilder();
 
             // Attach the rendered message

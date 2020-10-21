@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Seq.App.UdpCast</id>
-    <version>0.1.9</version>
+    <version>0.1.10</version>
     <authors>ali.ozgur</authors>
     <owners>ali.ozgur</owners>
     <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>

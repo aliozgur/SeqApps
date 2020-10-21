@@ -17,10 +17,10 @@ namespace Seq.App.Jira
 {
     [SeqApp("JIRA Issue",
     Description = "Posts seq event as an issue to Atlassian JIRA")]
-    public class JiraIssueReactor : Reactor, ISubscribeTo<LogEventData>
+    public class JiraIssueReactor : SeqApp, ISubscribeTo<LogEventData>
     {
 
-        #region Settings 
+        #region Settings
         [SeqAppSetting(
             DisplayName = "Seq Server Url",
             IsOptional = true,
@@ -108,7 +108,7 @@ namespace Seq.App.Jira
             HelpText = "Comma seperated list of issue labels")]
         public string Labels { get; set; }
 
-       
+
         [SeqAppSetting(
             DisplayName = "Seq Event Id custom field # from JIRA",
             IsOptional = true,
@@ -194,7 +194,7 @@ namespace Seq.App.Jira
             };
 
 
-            // Try to match 
+            // Try to match
             if (SeqEventField.HasValue)
             {
                 var searchUrl = GiveMeTheSearchDuplicateIssueUrl(messageId);
@@ -234,7 +234,7 @@ namespace Seq.App.Jira
             var payload = new { fields };
 
             //var payloadJson = JsonConvert.SerializeObject(payload);
-            
+
             // Create the issue
             _step = "Will create issue";
             var result = await client.PostAsync<JiraCreateIssueResponse,object>("issue", payload)
@@ -244,7 +244,7 @@ namespace Seq.App.Jira
 
                 var e =new ApplicationException("Jira errors are  " + JsonConvert.SerializeObject(result.Errors));
                 Log.Error(e, "Can not crate issue on Jira");
-                return false;    
+                return false;
             }
             _step = "Issue created";
 

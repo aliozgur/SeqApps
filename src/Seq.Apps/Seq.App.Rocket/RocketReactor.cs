@@ -12,10 +12,10 @@ namespace Seq.App.Rocket
 {
     [SeqApp("Rocket.Chat",
     Description = "Posts seq event as a message to a Rocket.Chat channel")]
-    public class RocketReactor : Reactor, ISubscribeTo<LogEventData>
+    public class RocketReactor : SeqApp, ISubscribeTo<LogEventData>
     {
 
-        #region Settings 
+        #region Settings
 
         [SeqAppSetting(
             DisplayName = "Seq Server Url",
