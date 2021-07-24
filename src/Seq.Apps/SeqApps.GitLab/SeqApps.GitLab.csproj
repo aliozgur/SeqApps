@@ -15,13 +15,13 @@
     <Product>Seq.App.GitLab</Product>
     <PackageTags>seq-app Seq Serilog GitLab Seq.App Seq.App.GitLab Issues</PackageTags>
     <PackageReleaseNotes>Update finding GitLab project by name or id functionality</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/aliozgur/SeqApps</PackageProjectUrl>
     <Description>Seq app to create issues on GitLab</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.1.2</Version>
+    <Version>0.1.3</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

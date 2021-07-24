@@ -16,7 +16,7 @@
     <Product>Seq.App.Atlassian.Jira</Product>
     <PackageTags>seq-app Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</PackageTags>
     <PackageReleaseNotes>Allow JIRA Project key to be taken from an event property</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageIcon>jira.png</PackageIcon>
     <PackageIconUrl />
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -24,13 +24,13 @@
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.6</Version>
+    <Version>0.2.7</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\net47\net47\net47</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,7 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release\net47\net47\net47</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -70,10 +70,12 @@
     <PackageReference Include="Serilog" Version="2.10.0">
     </PackageReference>
   </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="Properties\" />
     <None Include="$(OutDir)/**/*" Exclude="$(OutDir)/$(MSBuildProjectName).dll;$(OutDir)/Seq.Apps.dll;$(OutDir)/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
+  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
