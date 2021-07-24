@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9942F93D-11DD-483B-8699-1D1E033BFD2F}</ProjectGuid>
+    <ProjectGuid>{B37F8816-4DB0-4E8C-914B-59094455676E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Seq.App.GitHub</RootNamespace>
