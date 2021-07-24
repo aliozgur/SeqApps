@@ -28,7 +28,7 @@ Allow disabling details as comment</PackageReleaseNotes>
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>1.0.10</Version>
+    <Version>0.2.5</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,36 +49,29 @@ Allow disabling details as comment</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="D:\Documents\Onedrive\source\repos\SeqApps\src\Seq.Apps\LICENSE">
+    <None Include="LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="D:\Documents\Onedrive\source\repos\SeqApps\src\Seq.Apps\Seq.App.Jira\jira.png">
+    <None Include="jira.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SeqApps.Commons\SeqApps.Commons.csproj">
-      <Project>{ff05f458-8018-4975-b568-948f86f05e46}</Project>
-      <Name>SeqApps.Commons</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Handlebars.Net">
-      <Version>2.0.8</Version>
+    <PackageReference Include="Handlebars.Net" Version="2.0.8">
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client">
-      <Version>5.2.7</Version>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7">
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3">
     </PackageReference>
-    <PackageReference Include="Seq.Apps">
-      <Version>5.1.0</Version>
+    <PackageReference Include="Seq.Apps" Version="5.1.0">
     </PackageReference>
-    <PackageReference Include="Serilog">
-      <Version>2.10.0</Version>
+    <PackageReference Include="Serilog" Version="2.10.0">
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
