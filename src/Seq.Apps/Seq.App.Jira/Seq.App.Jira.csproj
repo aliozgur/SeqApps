@@ -24,13 +24,13 @@
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.7</Version>
+    <Version>0.2.8</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\net47\net47\net47</OutputPath>
+    <OutputPath>bin\Debug\net47\net47\net47\net47</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,11 +38,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\net47\net47\net47</OutputPath>
+    <OutputPath>bin\Release\net47\net47\net47\net47</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Newtonsoft.Json" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="LICENSE">
@@ -63,17 +66,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7">
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1">
-    </PackageReference>
     <PackageReference Include="Seq.Apps" Version="5.1.0">
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.10.0">
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   
   <ItemGroup>
     <Folder Include="Properties\" />
-    <None Include="$(OutDir)/**/*" Exclude="$(OutDir)/$(MSBuildProjectName).dll;$(OutDir)/Seq.Apps.dll;$(OutDir)/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
+    <None Include="$(OutDir)/**/*" Exclude="$(OutDir)/$(MSBuildProjectName).dll;$(OutDir)/Seq.Apps.dll;$(OutDir)/Serilog.dll;$(OutDir)/Newtonsoft.Json.dll;$(OutDir)/System.*" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
   
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
