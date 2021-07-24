@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Seq.App.Jira
 {
@@ -18,6 +18,4 @@ namespace Seq.App.Jira
         public int total { get; set; }
         public JiraIssue[] issues { get; set; }
     }
-
-
 }

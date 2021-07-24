@@ -9,7 +9,7 @@ namespace Seq.Apps.Tests
     public class JiraIssueReactorTests
     {
         [TestMethod]
-        public void CreateIssue()
+        public async void CreateIssue()
         {
 
             var jr = new JiraIssueReactor()
@@ -24,7 +24,7 @@ namespace Seq.Apps.Tests
             };
 
             var evt = new Event<LogEvents.LogEventData>("11",1,DateTime.Now, new LogEvents.LogEventData { Exception = "Sample exception", Level = LogEvents.LogEventLevel.Error, RenderedMessage = "Rendered Test Message"});
-            jr.On(evt);
+            await jr.OnAsync(evt);
         }
     }
 }
