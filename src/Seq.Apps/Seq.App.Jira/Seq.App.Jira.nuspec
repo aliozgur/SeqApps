@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Seq.App.Atlassian.Jira</id>
-    <version>0.2.4</version>
+    <id>Seq.App.Atlassian.Jira2</id>
+    <version>0.2.5</version>
     <authors>ali.ozgur</authors>
     <owners>ali.ozgur</owners>
     <licenseUrl>https://github.com/aliozgur/SeqApps/blob/master/LICENSE</licenseUrl>

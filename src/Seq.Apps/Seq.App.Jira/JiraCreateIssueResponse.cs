@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SeqApps.Commons;
+
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Seq.App.Jira
 {
@@ -20,7 +21,6 @@ namespace Seq.App.Jira
             ? string.Empty
             : $"{Host.TrimEnd(StringSplits.ForwardSlash)}/browse/{Key}";
 
-        public Dictionary<string,string> Errors { get; set; }
-
+        public Dictionary<string, string> Errors { get; set; }
     }
 }
