@@ -15,11 +15,7 @@
     <Authors>ali.ozgur and contributors</Authors>
     <Product>Seq.App.Atlassian.Jira</Product>
     <PackageTags>seq-app Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</PackageTags>
-    <PackageReleaseNotes>Added ability to include tags from event, specify issue priority, map priority from event, set assignee - aligns with Seq.App.Opsgenie functionality
-Added Handlebar templating for Summary and Description, using Seq.App.Opsgenie functionality
-Added debug logging
-Converted project to .NET SDK
-Allow disabling details as comment</PackageReleaseNotes>
+    <PackageReleaseNotes>Allow JIRA Project key to be taken from an event property</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>jira.png</PackageIcon>
     <PackageIconUrl />
@@ -28,7 +24,7 @@ Allow disabling details as comment</PackageReleaseNotes>
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.5</Version>
+    <Version>0.2.6</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
