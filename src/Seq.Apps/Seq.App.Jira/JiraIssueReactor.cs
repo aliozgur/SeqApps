@@ -11,12 +11,6 @@ using Seq.Apps;
 using Seq.Apps.LogEvents;
 using SeqApps.Commons;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// ReSharper disable MemberCanBeMadeStatic.Local
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ConstantConditionalAccessQualifier
-// ReSharper disable ArrangeTypeMemberModifiers
 
 namespace Seq.App.Jira
 {
@@ -28,6 +22,8 @@ namespace Seq.App.Jira
             new Dictionary<string, Priority>(StringComparer.OrdinalIgnoreCase);
 
         string _assigneeProperty;
+        string _projectKeyProperty;
+
         HandlebarsTemplate _generateMessage, _generateDescription;
         private string _includeTagProperty;
         bool _isPriorityMapping;
@@ -69,6 +65,14 @@ namespace Seq.App.Jira
                 _assigneeProperty = AssigneeProperty;
                 Log.ForContext("AssigneeProperty", _assigneeProperty)
                     .Debug("Map Assignee Property: {AssigneeProperty}");
+            }
+
+            //Only allow mapping project key from a property if a default project key value exists
+            if (!string.IsNullOrEmpty(ProjectKey))
+            {
+                _projectKeyProperty = ProjectKey;
+                Log.ForContext("ProjectKeyProperty", _projectKeyProperty)
+                    .Debug("Map Project Key Property: {ProjectKey}");
             }
 
             if (!string.IsNullOrEmpty(PriorityProperty))
@@ -153,12 +157,19 @@ namespace Seq.App.Jira
             var priority = ComputePriority(evt).ToString();
             var fields = new Dictionary<string, object>
             {
-                {"project", new {key = ProjectKey.Trim()}},
                 {"issuetype", new {name = JiraIssueType.Trim()}},
                 {"summary", summary},
                 {"description", description},
                 {"priority", new {name = priority }}
             };
+
+            var projectKey = TryGetPropertyValueCI(evt.Data.Properties, _projectKeyProperty, out var projectKeyValue)
+               ? projectKeyValue
+               : ProjectKey;
+
+            if (!string.IsNullOrEmpty(projectKey as string))
+                fields.Add("project", new { name = projectKey.ToString().Trim() });
+
 
             var assignee = TryGetPropertyValueCI(evt.Data.Properties, _assigneeProperty, out var assigneeValue)
                 ? assigneeValue
