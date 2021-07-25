@@ -1,1 +1,0 @@
-nuget pack Seq.App.Rocket.csproj -build -includereferencedprojects -properties Configuration=Release
