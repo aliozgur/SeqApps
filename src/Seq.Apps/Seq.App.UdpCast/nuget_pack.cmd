@@ -1,1 +1,0 @@
-nuget pack Seq.App.UdpCast.csproj -build -includereferencedprojects -properties Configuration=Release
