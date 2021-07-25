@@ -11,25 +11,24 @@ using Seq.Apps;
 using Seq.Apps.LogEvents;
 using SeqApps.Commons;
 
-
 namespace Seq.App.Jira
 {
     [SeqApp("JIRA Issue",
         Description = "Posts Seq event as an issue to Atlassian JIRA")]
     public class JiraIssueReactor : SeqApp, ISubscribeToAsync<LogEventData>
     {
-        readonly Dictionary<string, Priority> _priorities =
+        private readonly Dictionary<string, Priority> _priorities =
             new Dictionary<string, Priority>(StringComparer.OrdinalIgnoreCase);
 
-        string _assigneeProperty;
-        string _projectKeyProperty;
+        private string _assigneeProperty;
 
-        HandlebarsTemplate _generateMessage, _generateDescription;
+        private HandlebarsTemplate _generateMessage, _generateDescription;
         private string _includeTagProperty;
-        bool _isPriorityMapping;
+        private bool _isPriorityMapping;
         private string[] _labels;
-        Priority _priority = Priority.Medium, _defaultPriority = Priority.Medium;
-        string _priorityProperty = "@Level";
+        private Priority _priority = Priority.Medium, _defaultPriority = Priority.Medium;
+        private string _priorityProperty = "@Level";
+        private string _projectKeyProperty;
 
         private string _step = "";
 
@@ -68,12 +67,13 @@ namespace Seq.App.Jira
             }
 
             //Only allow mapping project key from a property if a default project key value exists
-            if (!string.IsNullOrEmpty(ProjectKey))
+            if (!string.IsNullOrEmpty(ProjectKeyProperty))
             {
-                _projectKeyProperty = ProjectKey;
+                _projectKeyProperty = ProjectKeyProperty;
                 Log.ForContext("ProjectKeyProperty", _projectKeyProperty)
                     .Debug("Map Project Key Property: {ProjectKey}");
             }
+
 
             if (!string.IsNullOrEmpty(PriorityProperty))
                 _priorityProperty = PriorityProperty;
@@ -155,21 +155,18 @@ namespace Seq.App.Jira
             }
 
             var priority = ComputePriority(evt).ToString();
+            var projectKey = TryGetPropertyValueCI(evt.Data.Properties, _projectKeyProperty, out var projectKeyValue)
+                ? projectKeyValue
+                : ProjectKey;
+
             var fields = new Dictionary<string, object>
             {
+                {"project", new {key = projectKey.ToString().Trim()}},
                 {"issuetype", new {name = JiraIssueType.Trim()}},
                 {"summary", summary},
                 {"description", description},
-                {"priority", new {name = priority }}
+                {"priority", new {name = priority}}
             };
-
-            var projectKey = TryGetPropertyValueCI(evt.Data.Properties, _projectKeyProperty, out var projectKeyValue)
-               ? projectKeyValue
-               : ProjectKey;
-
-            if (!string.IsNullOrEmpty(projectKey as string))
-                fields.Add("project", new { name = projectKey.ToString().Trim() });
-
 
             var assignee = TryGetPropertyValueCI(evt.Data.Properties, _assigneeProperty, out var assigneeValue)
                 ? assigneeValue
@@ -194,7 +191,7 @@ namespace Seq.App.Jira
             Log.ForContext("Payload", payload, true).Debug("Creating issue: {0}, priority: {1}", summary, priority);
             _step = "Will create issue";
 
-            var result = new JiraCreateIssueResponse();
+            JiraCreateIssueResponse result;
             try
             {
                 result = await client.PostAsync<JiraCreateIssueResponse, object>("issue", payload)
@@ -203,16 +200,17 @@ namespace Seq.App.Jira
             catch (WebException e)
             {
                 var r = e.Response.GetResponseStream();
-                string serverResponse;
-                using (var s = new StreamReader(r))
-                {
-                    serverResponse = await s.ReadToEndAsync();
-                }
-                
+                var serverResponse = "Unreadable";
+                if (r != null)
+                    using (var s = new StreamReader(r))
+                    {
+                        serverResponse = await s.ReadToEndAsync();
+                    }
+
                 Log.Error(e, "Can not create issue on Jira: {Response}", serverResponse);
                 throw;
             }
-            
+
             if ((result?.Errors?.Count ?? 0) > 0)
             {
                 var e = new ApplicationException("Jira errors are  " + JsonConvert.SerializeObject(result.Errors));
@@ -326,7 +324,7 @@ namespace Seq.App.Jira
             return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", string.Empty);
         }
 
-        string[] ComputeTags(Event<LogEventData> evt)
+        private string[] ComputeTags(Event<LogEventData> evt)
         {
             if (!AddEventTags ||
                 !TryGetPropertyValueCI(evt.Data.Properties, AddEventProperty, out var tagArrValue) ||
@@ -393,7 +391,7 @@ namespace Seq.App.Jira
             return true;
         }
 
-        static IEnumerable<string> SplitAndTrim(char splitOn, string setting)
+        private static IEnumerable<string> SplitAndTrim(char splitOn, string setting)
         {
             return setting.Split(new[] {splitOn}, StringSplitOptions.RemoveEmptyEntries)
                 .Select(t => t.Trim());
@@ -459,8 +457,17 @@ namespace Seq.App.Jira
             }
         }
 
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Project Key Property",
+            HelpText =
+                "Optional event property to read for project key. If set and not matched, Jira Project Key will act as a default fallback.")]
+        public string ProjectKeyProperty { get; set; }
+
         [SeqAppSetting(DisplayName = "Jira Project Key",
-            IsOptional = false)]
+            IsOptional = false,
+            HelpText =
+                "Project key for Jira issue. If Project Key Property is set, this will act as a default fallback.")]
         public string ProjectKey { get; set; }
 
         [SeqAppSetting(
