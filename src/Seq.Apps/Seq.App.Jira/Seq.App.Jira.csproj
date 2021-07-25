@@ -72,13 +72,13 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Folder Include="Properties\" />
     <None Include="$(OutDir)/**/*" Exclude="$(OutDir)/$(MSBuildProjectName).dll;$(OutDir)/Seq.Apps.dll;$(OutDir)/Serilog.dll;$(OutDir)/Newtonsoft.Json.dll;$(OutDir)/System.*" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
-  
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
