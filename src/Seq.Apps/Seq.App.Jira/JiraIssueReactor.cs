@@ -76,7 +76,7 @@ namespace Seq.App.Jira
             {
                 _projectKeyProperty = ProjectKeyProperty;
                 Log.ForContext("ProjectKeyProperty", _projectKeyProperty)
-                    .Debug("Map Project Key Property: {ProjectKey}");
+                    .Debug("Map Project Key Property: {ProjectKeyProperty}");
             }
 
 
