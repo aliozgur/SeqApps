@@ -35,6 +35,10 @@ namespace Seq.Apps.Tests
             Console.WriteLine("Test Valid Date Expression 2 ...");
             Assert.IsTrue(JiraIssueReactor.ValidDateExpression("1d 1h 30m"));
             Console.WriteLine("Test Valid Date Expression 3 ...");
+            Assert.IsTrue(JiraIssueReactor.ValidDateExpression("1d1h30m"));
+            Console.WriteLine("Test Valid Date Expression 4 ...");
+            Assert.IsTrue(JiraIssueReactor.ValidDateExpression("1d"));
+            Console.WriteLine("Test Valid Date Expression 5 ...");
             Assert.IsFalse(JiraIssueReactor.ValidDateExpression("2021-02-31"));
             Console.WriteLine("Test Valid Date 1 ...");
             Assert.IsTrue(JiraIssueReactor.ValidDate("2021-02-31"));

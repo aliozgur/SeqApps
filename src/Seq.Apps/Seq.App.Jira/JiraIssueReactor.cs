@@ -342,13 +342,13 @@ namespace Seq.App.Jira
 
         public static bool ValidDateExpression(string value)
         {
-            return Regex.IsMatch(value, "^((?:(\\d+)d\\s)?(?:(\\d+)h\\s)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            return Regex.IsMatch(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
         }
 
         public static string CalculateDateExpression(string value)
         {
             var date = DateTime.Today;
-            var match = Regex.Match(value, "^((?:(\\d+)d\\s)?(?:(\\d+)h\\s)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
             if (!string.IsNullOrEmpty(match.Groups[2].Value))
                 date = date.AddDays(int.Parse(match.Groups[2].Value));
             if (!string.IsNullOrEmpty(match.Groups[3].Value))
