@@ -731,28 +731,28 @@ namespace Seq.App.Jira
             IsOptional = true,
             DisplayName = "Initial Estimate Property",
             HelpText =
-                "Optional property to read for initial estimate. Must be in d (days), h (hours), m (minutes).")]
+                "Optional property to read for initial estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string InitialEstimateProperty { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Initial Estimate",
             HelpText =
-                "Optional initial estimate, format d (days), h (hours), m (minutes). If Initial Estimate Property is set and matched, this will not be used. if Initial Estimate Property is set and not matched, this will be used as default.")]
+                "Optional initial estimate, format d (days), h (hours), m (minutes). If Initial Estimate Property is set and matched, this will not be used. if Initial Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string InitialEstimate { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Remaining Estimate Property",
             HelpText =
-                "Optional property to read for Remaining Estimate. Must be in d (days), h (hours), m (minutes)")]
+                "Optional property to read for Remaining Estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string RemainingEstimateProperty { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Remaining Estimate",
             HelpText =
-                "Optional remaining estimate, format d (days), h (hours), m (minutes). If Remaining Estimate Property is set and matched, this will not be used. if Remaining Estimate Property is set and not matched, this will be used as default.")]
+                "Optional remaining estimate, format d (days), h (hours), m (minutes). If Remaining Estimate Property is set and matched, this will not be used. if Remaining Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string RemainingEstimate { get; set; }
 
         [SeqAppSetting(
