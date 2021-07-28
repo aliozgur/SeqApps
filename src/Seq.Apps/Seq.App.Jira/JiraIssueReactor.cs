@@ -216,8 +216,8 @@ namespace Seq.App.Jira
                         fields.Add("timetracking",
                             new
                             {
-                                originalEstimate = initialEstimate.ToString().Trim(),
-                                remainingEstimate = remainingEstimate.ToString().Trim()
+                                originalEstimate = SetValidExpression(initialEstimate.ToString()),
+                                remainingEstimate = SetValidExpression(remainingEstimate.ToString())
                             });
                     break;
                 }
@@ -227,7 +227,7 @@ namespace Seq.App.Jira
                         fields.Add("timetracking",
                             new
                             {
-                                originalEstimate = initialEstimate.ToString().Trim()
+                                originalEstimate = SetValidExpression(initialEstimate.ToString())
                             });
                     break;
                 }
@@ -239,7 +239,7 @@ namespace Seq.App.Jira
                             fields.Add("timetracking",
                                 new
                                 {
-                                    remainingEstimate = remainingEstimate.ToString().Trim()
+                                    remainingEstimate = SetValidExpression(remainingEstimate.ToString())
                                 });
                     }
 
@@ -356,6 +356,20 @@ namespace Seq.App.Jira
             if (!string.IsNullOrEmpty(match.Groups[4].Value))
                 date = date.AddMinutes(int.Parse(match.Groups[4].Value));
             return date.ToString("yyyy-MM-dd");
+        }
+
+        public static string SetValidExpression(string value)
+        {
+            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            StringBuilder s = new StringBuilder();
+            if (!string.IsNullOrEmpty(match.Groups[2].Value))
+                s.AppendFormat("{0}d ", match.Groups[2].Value);
+            if (!string.IsNullOrEmpty(match.Groups[3].Value))
+                s.AppendFormat("{0}h ", match.Groups[3].Value);
+            if (!string.IsNullOrEmpty(match.Groups[4].Value))
+                s.AppendFormat("{0}m", match.Groups[4].Value);
+
+            return s.ToString().Trim();
         }
 
         public async Task CommentAsync(JiraCreateIssueResponse createResponse, string comment)
