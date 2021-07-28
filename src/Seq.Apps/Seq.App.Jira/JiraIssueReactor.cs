@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Seq.Apps;
@@ -21,6 +22,10 @@ namespace Seq.App.Jira
             new Dictionary<string, Priority>(StringComparer.OrdinalIgnoreCase);
 
         private string _assigneeProperty;
+        private string _initialEstimateProperty;
+        private string _remainingEstimateProperty;
+        private string _dueDateProperty;
+
 
         private HandlebarsTemplate _generateMessage, _generateDescription;
         private string _includeTagProperty;
@@ -71,7 +76,7 @@ namespace Seq.App.Jira
             {
                 _projectKeyProperty = ProjectKeyProperty;
                 Log.ForContext("ProjectKeyProperty", _projectKeyProperty)
-                    .Debug("Map Project Key Property: {ProjectKey}");
+                    .Debug("Map Project Key Property: {ProjectKeyProperty}");
             }
 
 
@@ -112,6 +117,24 @@ namespace Seq.App.Jira
                         EventPriority);
                     _priority = _defaultPriority;
                     break;
+            }
+
+            if (!string.IsNullOrEmpty(RemainingEstimateProperty))
+            {
+                _remainingEstimateProperty = RemainingEstimateProperty;
+                Log.ForContext("RemainingEstimateProperty", _remainingEstimateProperty).Debug("Map Remaining Estimate Property: {RemainingEstimateProperty}");
+            }
+
+            if (!string.IsNullOrEmpty(InitialEstimateProperty))
+            {
+                _initialEstimateProperty = InitialEstimateProperty;
+                Log.ForContext("InitialEstimateProperty", _initialEstimateProperty).Debug("Map Initial Estimate Property: {InitialEstimateProperty}");
+            }
+
+            if (!string.IsNullOrEmpty(DueDateProperty))
+            {
+                _dueDateProperty = DueDateProperty;
+                Log.ForContext("DueDateProperty", _dueDateProperty).Debug("Map Due Date Property: {DueDateProperty}");
             }
 
             _labels = SplitAndTrim(',', Labels ?? "").ToArray();
@@ -173,6 +196,68 @@ namespace Seq.App.Jira
                 : Assignee;
             if (!string.IsNullOrEmpty(assignee as string))
                 fields.Add("assignee", new {name = assignee.ToString().Trim()});
+
+            var initialEstimate =
+                TryGetPropertyValueCI(evt.Data.Properties, _initialEstimateProperty, out var initialEstimateValue)
+                    ? initialEstimateValue
+                    : InitialEstimate;
+
+            var remainingEstimate =
+                TryGetPropertyValueCI(evt.Data.Properties, _remainingEstimateProperty, out var remainingEstimateValue)
+                    ? remainingEstimateValue
+                    : RemainingEstimate;
+
+            switch (string.IsNullOrEmpty(initialEstimate as string))
+            {
+                case false when !string.IsNullOrEmpty(remainingEstimate as string):
+                {
+                    if (ValidDateExpression(initialEstimate as string) &&
+                        ValidDateExpression(remainingEstimate as string))
+                        fields.Add("timetracking",
+                            new
+                            {
+                                originalEstimate = SetValidExpression(initialEstimate.ToString()),
+                                remainingEstimate = SetValidExpression(remainingEstimate.ToString())
+                            });
+                    break;
+                }
+                case false:
+                {
+                    if (ValidDateExpression(initialEstimate as string))
+                        fields.Add("timetracking",
+                            new
+                            {
+                                originalEstimate = SetValidExpression(initialEstimate.ToString())
+                            });
+                    break;
+                }
+                default:
+                {
+                    if (!string.IsNullOrEmpty(remainingEstimate as string))
+                    {
+                        if (ValidDateExpression(remainingEstimate as string))
+                            fields.Add("timetracking",
+                                new
+                                {
+                                    remainingEstimate = SetValidExpression(remainingEstimate.ToString())
+                                });
+                    }
+
+                    break;
+                }
+            }
+
+            var dueDate = TryGetPropertyValueCI(evt.Data.Properties, _dueDateProperty, out var dueDateValue)
+                ? dueDateValue
+                : DueDate;
+
+            if (!string.IsNullOrEmpty(dueDate as string))
+            {
+                if (ValidDate(dueDate as string))
+                    fields.Add("duedate", dueDate);
+                else if (ValidDateExpression(dueDate as string))
+                    fields.Add("duedate", CalculateDateExpression(dueDate as string));
+            }
 
             // Process components
             var components = ComponentsAsArray;
@@ -248,6 +333,43 @@ namespace Seq.App.Jira
 
                 _step = "Added properties as comment";
             }
+        }
+
+        public static bool ValidDate(string value)
+        {
+            return Regex.IsMatch(value, "^(([12]\\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$");
+        }
+
+        public static bool ValidDateExpression(string value)
+        {
+            return Regex.IsMatch(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+        }
+
+        public static string CalculateDateExpression(string value)
+        {
+            var date = DateTime.Today;
+            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            if (!string.IsNullOrEmpty(match.Groups[2].Value))
+                date = date.AddDays(int.Parse(match.Groups[2].Value));
+            if (!string.IsNullOrEmpty(match.Groups[3].Value))
+                date = date.AddHours(int.Parse(match.Groups[3].Value));
+            if (!string.IsNullOrEmpty(match.Groups[4].Value))
+                date = date.AddMinutes(int.Parse(match.Groups[4].Value));
+            return date.ToString("yyyy-MM-dd");
+        }
+
+        public static string SetValidExpression(string value)
+        {
+            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            StringBuilder s = new StringBuilder();
+            if (!string.IsNullOrEmpty(match.Groups[2].Value))
+                s.AppendFormat("{0}d ", match.Groups[2].Value);
+            if (!string.IsNullOrEmpty(match.Groups[3].Value))
+                s.AppendFormat("{0}h ", match.Groups[3].Value);
+            if (!string.IsNullOrEmpty(match.Groups[4].Value))
+                s.AppendFormat("{0}m", match.Groups[4].Value);
+
+            return s.ToString().Trim();
         }
 
         public async Task CommentAsync(JiraCreateIssueResponse createResponse, string comment)
@@ -605,6 +727,47 @@ namespace Seq.App.Jira
         )]
         public bool PropertiesAsComment { get; set; } = false;
 
+                        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Initial Estimate Property",
+            HelpText =
+                "Optional property to read for initial estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+        public string InitialEstimateProperty { get; set; }
+
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Initial Estimate",
+            HelpText =
+                "Optional initial estimate, format d (days), h (hours), m (minutes). If Initial Estimate Property is set and matched, this will not be used. if Initial Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+        public string InitialEstimate { get; set; }
+
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Remaining Estimate Property",
+            HelpText =
+                "Optional property to read for Remaining Estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+        public string RemainingEstimateProperty { get; set; }
+
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Remaining Estimate",
+            HelpText =
+                "Optional remaining estimate, format d (days), h (hours), m (minutes). If Remaining Estimate Property is set and matched, this will not be used. if Remaining Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+        public string RemainingEstimate { get; set; }
+
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Due Date Property",
+            HelpText =
+                "Optional property to read for due date. Must be formatted as yyyy-MM-dd or d (days), h (hours), m (minutes).")]
+        public string DueDateProperty { get; set; }
+
+        [SeqAppSetting(
+            IsOptional = true,
+            DisplayName = "Due Date",
+            HelpText =
+                "Optional due date (format in d (days), h (hours), m (minutes). If Due Date Property is set and matched, this will not be used. if Due Date Property is set and not matched, this will be used as default.")]
+        public string DueDate { get; set; }
 
         [SeqAppSetting(
             DisplayName = "Jira Username",

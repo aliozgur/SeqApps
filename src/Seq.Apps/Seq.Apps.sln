@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seq.App.Jira", "Seq.App.Jira\Seq.App.Jira.csproj", "{9942F93D-11DD-483B-8699-1D1E033BFD1F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seq.App.Rocket", "Seq.App.Rocket\Seq.App.Rocket.csproj", "{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.Commons", "SeqApps.Commons\SeqApps.Commons.csproj", "{FF05F458-8018-4975-B568-948F86F05E46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Apps.Tests", "Seq.Apps.Tests\Seq.Apps.Tests.csproj", "{68B9ADC5-7FCD-4973-B33C-A7495BA81747}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.UdpCast", "Seq.App.UdpCast\Seq.App.UdpCast.csproj", "{90B4098A-2F95-4F35-A751-B822DB0EB1B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seq.App.UdpCast", "Seq.App.UdpCast\Seq.App.UdpCast.csproj", "{90B4098A-2F95-4F35-A751-B822DB0EB1B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.GitLab", "SeqApps.GitLab\SeqApps.GitLab.csproj", "{9942F93D-11DD-483B-8699-1D1E033BFD2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeqApps.GitLab", "SeqApps.GitLab\SeqApps.GitLab.csproj", "{9942F93D-11DD-483B-8699-1D1E033BFD2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqApps.GitHub", "SeqApps.GitHub\SeqApps.GitHub.csproj", "{B37F8816-4DB0-4E8C-914B-59094455676E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.App.Rocket", "Seq.App.Rocket\Seq.App.Rocket.csproj", "{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeqApps.GitHub", "SeqApps.GitHub\SeqApps.GitHub.csproj", "{B37F8816-4DB0-4E8C-914B-59094455676E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +27,10 @@ Global
 		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9942F93D-11DD-483B-8699-1D1E033BFD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF05F458-8018-4975-B568-948F86F05E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF05F458-8018-4975-B568-948F86F05E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF05F458-8018-4975-B568-948F86F05E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +51,6 @@ Global
 		{B37F8816-4DB0-4E8C-914B-59094455676E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37F8816-4DB0-4E8C-914B-59094455676E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37F8816-4DB0-4E8C-914B-59094455676E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14E05AC6-DFEC-4077-8BBE-FB0A1E386B81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
