@@ -16,7 +16,7 @@
     <Product>Seq.App.Atlassian.Jira</Product>
     <PackageTags>seq-app Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</PackageTags>
     <PackageReleaseNotes>Allow JIRA Project key to be taken from an event property</PackageReleaseNotes>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>jira.png</PackageIcon>
     <PackageIconUrl />
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -24,7 +24,7 @@
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.9</Version>
+    <Version>0.2.10</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
