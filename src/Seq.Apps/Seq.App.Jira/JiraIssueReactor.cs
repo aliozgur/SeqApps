@@ -162,7 +162,7 @@ namespace Seq.App.Jira
                 Password = Password
             };
 
-
+            
             // Try to match
             if (SeqEventField.HasValue)
             {
@@ -398,8 +398,7 @@ namespace Seq.App.Jira
 
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(JiraDescription))
-                sb.AppendFormat("{0} \\\\ ",
-                    _generateDescription.Render(evt).Replace("\\r", "\\\\ ").Replace("\\n", "\\\\ "));
+                sb.AppendLine($"{_generateDescription.Render(evt)}\r\n");
 
             if ((string.IsNullOrEmpty(JiraDescription) || !FullDetailsInDescription) &&
                 !string.IsNullOrEmpty(JiraDescription)) return sb.ToString();
@@ -695,7 +694,8 @@ namespace Seq.App.Jira
             DisplayName = "Jira Description",
             HelpText =
                 "The description associated with the alert, specified with Handlebars syntax. If blank, a default" +
-                " description will be used.")]
+                " description will be used.",
+            InputType = SettingInputType.LongText)]
         public string JiraDescription { get; set; }
 
         [SeqAppSetting(
