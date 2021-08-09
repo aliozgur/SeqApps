@@ -342,32 +342,36 @@ namespace Seq.App.Jira
 
         public static bool ValidDateExpression(string value)
         {
-            return Regex.IsMatch(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            return Regex.IsMatch(value, "^((?:(\\d+)w\\s?)?(?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
         }
 
         public static string CalculateDateExpression(string value)
         {
             var date = DateTime.Today;
-            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            var match = Regex.Match(value, "^((?:(\\d+)w\\s?)?(?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
             if (!string.IsNullOrEmpty(match.Groups[2].Value))
-                date = date.AddDays(int.Parse(match.Groups[2].Value));
+                date = date.AddDays(int.Parse(match.Groups[2].Value) * 7);
             if (!string.IsNullOrEmpty(match.Groups[3].Value))
-                date = date.AddHours(int.Parse(match.Groups[3].Value));
+                date = date.AddDays(int.Parse(match.Groups[3].Value));
             if (!string.IsNullOrEmpty(match.Groups[4].Value))
-                date = date.AddMinutes(int.Parse(match.Groups[4].Value));
+                date = date.AddHours(int.Parse(match.Groups[4].Value));
+            if (!string.IsNullOrEmpty(match.Groups[5].Value))
+                date = date.AddMinutes(int.Parse(match.Groups[5].Value));
             return date.ToString("yyyy-MM-dd");
         }
 
         public static string SetValidExpression(string value)
         {
-            var match = Regex.Match(value, "^((?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
+            var match = Regex.Match(value, "^((?:(\\d+)w\\s?)?(?:(\\d+)d\\s?)?(?:(\\d+)h\\s?)?(?:(\\d+)m)?)$", RegexOptions.IgnoreCase);
             StringBuilder s = new StringBuilder();
             if (!string.IsNullOrEmpty(match.Groups[2].Value))
-                s.AppendFormat("{0}d ", match.Groups[2].Value);
+                s.AppendFormat("{0}w ", match.Groups[2].Value);
             if (!string.IsNullOrEmpty(match.Groups[3].Value))
-                s.AppendFormat("{0}h ", match.Groups[3].Value);
+                s.AppendFormat("{0}d ", match.Groups[3].Value);
             if (!string.IsNullOrEmpty(match.Groups[4].Value))
-                s.AppendFormat("{0}m", match.Groups[4].Value);
+                s.AppendFormat("{0}h ", match.Groups[4].Value);
+            if (!string.IsNullOrEmpty(match.Groups[5].Value))
+                s.AppendFormat("{0}m", match.Groups[5].Value);
 
             return s.ToString().Trim();
         }
@@ -731,42 +735,42 @@ namespace Seq.App.Jira
             IsOptional = true,
             DisplayName = "Initial Estimate Property",
             HelpText =
-                "Optional property to read for initial estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+                "Optional property to read for initial estimate. Must be in w (weeks), d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string InitialEstimateProperty { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Initial Estimate",
             HelpText =
-                "Optional initial estimate, format d (days), h (hours), m (minutes). If Initial Estimate Property is set and matched, this will not be used. if Initial Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+                "Optional initial estimate, format w (weeks), d (days), h (hours), m (minutes). If Initial Estimate Property is set and matched, this will not be used. if Initial Estimate Property is set and not matched, this will be used as default. Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string InitialEstimate { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Remaining Estimate Property",
             HelpText =
-                "Optional property to read for Remaining Estimate. Must be in d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+                "Optional property to read for Remaining Estimate. Must be in w (weeks), d (days), h (hours), m (minutes). Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string RemainingEstimateProperty { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Remaining Estimate",
             HelpText =
-                "Optional remaining estimate, format d (days), h (hours), m (minutes). If Remaining Estimate Property is set and matched, this will not be used. if Remaining Estimate Property is set and not matched, this will be used as default.Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
+                "Optional remaining estimate, format w (weeks), d (days), h (hours), m (minutes). If Remaining Estimate Property is set and matched, this will not be used. if Remaining Estimate Property is set and not matched, this will be used as default. Consider installing Seq.App.EventSchedule app so that you can feed this property automatically from the event log stream.")]
         public string RemainingEstimate { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Due Date Property",
             HelpText =
-                "Optional property to read for due date. Must be formatted as yyyy-MM-dd or d (days), h (hours), m (minutes).")]
+                "Optional property to read for due date. Must be formatted as yyyy-MM-dd or w (weeks), d (days), h (hours), m (minutes).")]
         public string DueDateProperty { get; set; }
 
         [SeqAppSetting(
             IsOptional = true,
             DisplayName = "Due Date",
             HelpText =
-                "Optional due date (format in d (days), h (hours), m (minutes). If Due Date Property is set and matched, this will not be used. if Due Date Property is set and not matched, this will be used as default.")]
+                "Optional due date (format in w (weeks), d (days), h (hours), m (minutes). If Due Date Property is set and matched, this will not be used. if Due Date Property is set and not matched, this will be used as default.")]
         public string DueDate { get; set; }
 
         [SeqAppSetting(

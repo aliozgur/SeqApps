@@ -21,10 +21,10 @@
     <PackageIconUrl />
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/aliozgur/SeqApps</PackageProjectUrl>
-    <Description>Seq app to create issues on Atlassian Jira</Description>
+    <Description>Add w (weeks) to date expression</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.11</Version>
+    <Version>0.2.12</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
