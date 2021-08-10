@@ -150,7 +150,7 @@ namespace Seq.App.Jira
             if (evt == null) return;
 
             if ((LogEventLevelList?.Count ?? 0) > 0 && !LogEventLevelList.Contains(evt.Data.Level)) return;
-
+            _step = "Composing issue";
             var description = RenderDescription(evt);
 
             var messageId = ComputeId(evt.Data.Exception ?? evt.Data.RenderedMessage);
@@ -166,6 +166,7 @@ namespace Seq.App.Jira
             // Try to match
             if (SeqEventField.HasValue)
             {
+                _step = "Searching for duplicates";
                 var searchUrl = GiveMeTheSearchDuplicateIssueUrl(messageId);
 
                 var searchResult = await client.GetAsync<JiraIssueSearchResult>(searchUrl).ConfigureAwait(false);
@@ -177,6 +178,7 @@ namespace Seq.App.Jira
                 }
             }
 
+            _step = "Calculating fields";
             var priority = ComputePriority(evt).ToString();
             var projectKey = TryGetPropertyValueCI(evt.Data.Properties, _projectKeyProperty, out var projectKeyValue)
                 ? projectKeyValue
@@ -402,7 +404,7 @@ namespace Seq.App.Jira
 
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(JiraDescription))
-                sb.AppendLine($"{_generateDescription.Render(evt)}\r\n");
+                sb.AppendLine($"{Regex.Replace(_generateDescription.Render(evt), "(\\r\\n|\\\\r\\\\n|\\n\\r|\\\\n\\\\r|\\n|\\\\n|\\r|\\\\r|\\\\\\\\|\\\\)", "\r\n", RegexOptions.IgnoreCase)}\r\n");
 
             if ((string.IsNullOrEmpty(JiraDescription) || !FullDetailsInDescription) &&
                 !string.IsNullOrEmpty(JiraDescription)) return sb.ToString();

@@ -44,7 +44,7 @@ namespace Seq.Apps.Tests
             Assert.IsTrue(JiraIssueReactor.ValidDate("2021-02-31"));
             Console.WriteLine("Test Valid Date 2 ...");
             Assert.IsFalse(JiraIssueReactor.ValidDate("1h 30m"));
-            Console.WriteLine("Test Calculate Date 1d 24h 30m equals " + DateTime.Today.AddDays(1).AddHours(24).AddMinutes(30).ToString("yyyy-MM-dd"));
+            Console.WriteLine("Test Calculate Date 1w 1d 24h 30m equals " + DateTime.Today.AddDays(7).AddDays(1).AddHours(24).AddMinutes(30).ToString("yyyy-MM-dd"));
             Console.WriteLine(JiraIssueReactor.CalculateDateExpression("1w 1d 24h 30m"));
             Assert.IsTrue(JiraIssueReactor.CalculateDateExpression("1w 1d 24h 30m") == DateTime.Today.AddDays(7).AddDays(1).AddHours(24).AddMinutes(30).ToString("yyyy-MM-dd"));
         }
