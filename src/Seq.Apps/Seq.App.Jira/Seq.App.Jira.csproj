@@ -15,7 +15,8 @@
     <Authors>ali.ozgur and contributors</Authors>
     <Product>Seq.App.Atlassian.Jira</Product>
     <PackageTags>seq-app Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</PackageTags>
-    <PackageReleaseNotes>Change Jira Description to a LongText input type for better formatting within Jira</PackageReleaseNotes>
+    <PackageReleaseNotes>Add w (weeks) to date expression
+Fine tune line break handling</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>jira.png</PackageIcon>
     <PackageIconUrl />
@@ -24,7 +25,7 @@
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.11</Version>
+    <Version>0.2.12</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
