@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Seq.App.Jira;
-using Seq.App.Rocket;
 
 namespace Seq.Apps.Tests
 {
@@ -25,6 +26,39 @@ namespace Seq.Apps.Tests
 
             var evt = new Event<LogEvents.LogEventData>("11",1,DateTime.Now, new LogEvents.LogEventData { Exception = "Sample exception", Level = LogEvents.LogEventLevel.Error, RenderedMessage = "Rendered Test Message"});
             await jr.OnAsync(evt);
+        }
+
+        [TestMethod]
+        public void TestEmptyProjectKey()
+        {
+            var testDictionary = new Dictionary<string, object>() { {"ProjectKey", null }};
+            var evt = new Event<LogEvents.LogEventData>("11",1,DateTime.Now, new LogEvents.LogEventData { Exception = "Sample exception", Level = LogEvents.LogEventLevel.Error, RenderedMessage = "Rendered Test Message", Properties = new ReadOnlyDictionary<string, object>(testDictionary) });
+            var projectKey = JiraIssueReactor.TryGetPropertyValueCI(evt.Data.Properties, "ProjectKey", out var projectKeyValue)
+                ? projectKeyValue ?? string.Empty
+                : null ?? string.Empty;
+            Assert.IsTrue(projectKey != null && (string)projectKey == string.Empty);
+        }
+
+        [TestMethod]
+        public void TestEmptyPriority()
+        {
+            var jr = new JiraIssueReactor()
+            {
+                Username = "--",
+                Password = "--",
+                JiraIssueType = "--",
+                ProjectKey = "--",
+                Components = "--",
+                JiraUrl = "--",
+                LogEventLevels = "",
+                PriorityProperty = "Priority",
+                EventPriority = "P3=Medium",
+                DefaultPriority = "Medium"
+            };
+            var testDictionary = new Dictionary<string, object>() { {"Priority", null }};
+            var evt = new Event<LogEvents.LogEventData>("11",1,DateTime.Now, new LogEvents.LogEventData { Exception = "Sample exception", Level = LogEvents.LogEventLevel.Error, RenderedMessage = "Rendered Test Message", Properties = new ReadOnlyDictionary<string, object>(testDictionary) });
+            var priority = jr.ComputePriority(evt);
+            Assert.IsTrue(priority == Priority.Medium);
         }
 
         [TestMethod]
