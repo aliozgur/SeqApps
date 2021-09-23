@@ -181,8 +181,8 @@ namespace Seq.App.Jira
             _step = "Calculating fields";
             var priority = ComputePriority(evt).ToString();
             var projectKey = TryGetPropertyValueCI(evt.Data.Properties, _projectKeyProperty, out var projectKeyValue)
-                ? projectKeyValue
-                : ProjectKey;
+                ? projectKeyValue ?? string.Empty
+                : ProjectKey ?? string.Empty;
 
             var fields = new Dictionary<string, object>
             {
@@ -470,7 +470,7 @@ namespace Seq.App.Jira
             return result.ToArray();
         }
 
-        internal Priority ComputePriority(Event<LogEventData> evt)
+        public Priority ComputePriority(Event<LogEventData> evt)
         {
             if (!_isPriorityMapping)
                 return _priority;
@@ -488,7 +488,7 @@ namespace Seq.App.Jira
         }
 
         // ReSharper disable once InconsistentNaming
-        internal static bool TryGetPropertyValueCI(IReadOnlyDictionary<string, object> properties, string propertyName,
+        public static bool TryGetPropertyValueCI(IReadOnlyDictionary<string, object> properties, string propertyName,
             out object propertyValue)
         {
             var pair = properties.FirstOrDefault(p => p.Key.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
@@ -502,7 +502,7 @@ namespace Seq.App.Jira
             return true;
         }
 
-        internal static bool TryParsePriorityMappings(string encodedMappings, out Dictionary<string, Priority> mappings)
+        public static bool TryParsePriorityMappings(string encodedMappings, out Dictionary<string, Priority> mappings)
         {
             if (encodedMappings == null) throw new ArgumentNullException(nameof(encodedMappings));
             mappings = new Dictionary<string, Priority>(StringComparer.OrdinalIgnoreCase);

@@ -15,8 +15,7 @@
     <Authors>ali.ozgur and contributors</Authors>
     <Product>Seq.App.Atlassian.Jira</Product>
     <PackageTags>seq-app Seq Serilog JIRA Seq.App Seq.App.Jira Atlassian Seq.App.Atlassian.Jira</PackageTags>
-    <PackageReleaseNotes>Add w (weeks) to date expression
-Fine tune line break handling</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix null reference exception for project key property mapping</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageIcon>jira.png</PackageIcon>
     <PackageIconUrl />
@@ -25,7 +24,7 @@ Fine tune line break handling</PackageReleaseNotes>
     <Description>Seq app to create issues on Atlassian Jira</Description>
     <RepositoryUrl>https://github.com/aliozgur/SeqApps</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <Version>0.2.13</Version>
+    <Version>0.2.14</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
