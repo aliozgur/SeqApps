@@ -304,8 +304,9 @@ namespace Seq.App.Jira
                 Log.Error(e, "Can not create issue on Jira");
                 return;
             }
-
+            
             _step = "Issue created";
+            Log.ForContext("Payload", payload, true).ForContext("Result", result, true).Debug("Issue created: {Key} - {Summary}, URL: {URL}", result.Key, summary, result.BrowseUrl);
 
             // Add details as comment
             if (!FullDetailsInDescription && FullDetailsAsComment)
@@ -315,7 +316,7 @@ namespace Seq.App.Jira
                 var commentBody = $"{{noformat}}{evt.Data.RenderedMessage}{{noformat}}";
                 if (commentBody.HasValue())
                 {
-                    Log.ForContext("CommentBody", commentBody).Debug("Adding details as comment ...");
+                    Log.ForContext("Payload", payload, true).ForContext("Result", result, true).ForContext("CommentBody", commentBody).Debug("Adding details to {Key} as comment ...", result.Key);
                     await CommentAsync(result, commentBody).ConfigureAwait(false);
                 }
 
@@ -329,7 +330,7 @@ namespace Seq.App.Jira
                 var commentBody = RenderProperties(evt, "Structured Event Properties");
                 if (commentBody.HasValue())
                 {
-                    Log.ForContext("CommentBody", commentBody).Debug("Adding properties as comment ...");
+                    Log.ForContext("Payload", payload, true).ForContext("Result", result, true).ForContext("CommentBody", commentBody).Debug("Adding properties to {Key} as comment ...", result.Key);
                     await CommentAsync(result, commentBody).ConfigureAwait(false);
                 }
 
